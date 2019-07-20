@@ -1,0 +1,24 @@
+{
+  "name": "angelo",
+  "version": "1.0.0",
+  "description": "Serviço de limpeza de estofados",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rhmoreira/angelo.git"
+  },
+  "author": "Renato Moreira",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rhmoreira/angelo/issues"
+  },
+  "homepage": "https://github.com/rhmoreira/angelo#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.6.4"
+  },
+  "devDependencies": {}
+}
