@@ -11,17 +11,20 @@ process.on("SIGTERM ", function() {
 
 var express = require('express');
 var app = express();
+var serverPort = 8080;
 
 app.use(express.json());
-app.listen(4200, function () {
-  console.log('Example app listening on port 4200!');
+
+app.listen(serverPort, function () {
+  console.log('Example app listening on port ' + serverPort + '!');
 });
 
 /* Express Middleware */
 require('./express-middleware.js')(app);
 
 /* App Config */
-require('./app-config.js')(express, app);
+var osApp = require('./app-config.js')(express);
+app.use('/OS', osApp);
 
 /* Error Handler */
 app.use((err, req, res, next) => {
@@ -32,8 +35,7 @@ app.use((err, req, res, next) => {
 			next(new Error('Registro desatualizado. Por favor, pesquise novamente.'));
 			break;
 		default:
-			next(err);
+			res.status(err.statusCode).json({erro: err.message});
 			break;
 	}
-  res.status(err.statusCode).json({erro: err.message});
 })

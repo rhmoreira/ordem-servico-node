@@ -11,7 +11,7 @@ module.exports = (mongoose) => {
       }
     ]
   });
-  var TabelaPreco = mongoose.model("TabelaPreco", TabelaPrecoSchema);
+	var TabelaPreco = mongoose.model("TabelaPreco", TabelaPrecoSchema);
 
   return module = TabelaPreco;
 };

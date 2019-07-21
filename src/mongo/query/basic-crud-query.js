@@ -5,6 +5,10 @@ module.exports = (mongo) => {
       if (obj._id) modelRefInstance.isNew = false;
 
       return modelRefInstance.save();
+		},
+		
+		excluir: (id, modelRef, callback) => {
+			modelRef.findByIdAndDelete(id, callback);
     }
 	};
 	
