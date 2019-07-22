@@ -3,22 +3,19 @@ var validarProduto = (req, res, next) => {
 	var mensagens = [];
 	
 	if (!produto) {
-		mensagens.push("Produto inválido");
+		mensagens.push(" Produto inválido");
 	}
 
 	if (!produto.descricao || produto.descricao.trim() == '') {
-		mensagens.push("Descrição do Produto é obrigatório");
+		mensagens.push(" Descrição do Produto é obrigatório");
 	}
 
 	if (!produto.material || produto.material.trim() == '') {
-		mensagens.push("Material do Produto é obrigatório");
+		mensagens.push(" Material do Produto é obrigatório");
 	}
 
-  if (!produto.tipo) {
-    mensagens.push("Tipo do produto é obrigatório");
-  }
-  if (!produto.categoria) {
-    mensagens.push("Categoria do produto é obrigatória");
+  if (!produto.categoria || (!produto.categoria instanceof String && !produto.categoria._id)) {
+    mensagens.push(" Categoria do produto é obrigatória");
   }
 
   if (mensagens.length > 0) {

@@ -17,29 +17,40 @@ module.exports = (mongo, express, app) => {
 		
 		/* Excluir */
     excluir: async (req, res, next) => {
-			var cSubId = req.params.idCategoriaSubstituta;
-			var cExcId = req.params.idCategoria;
+		var cExcId = req.params.idCategoria;
+		var cSubId = req.params.idCategoriaSubstituta;
+		var resultMsg = [];
 
-			if (cSubId) {
-				try {
-					var cSub = await mongo.models.Categoria.find({_id: cSubId});
-					await mongo.models.Produto.updateMany({categoria: cExcId}, {categoria: mongo.mongoose.Types.ObjectId(cSub._id)});
-					await mongo.models.Servico.updateMany({categoria: cExcId}, {categoria: mongo.mongoose.Types.ObjectId(cSub._id)});
-				} catch (error) {
+		if (cSubId) {
+			try {
+				var cSub = await mongo.models.Categoria.findById(cSubId);
+
+				var query = {categoria: mongo.mongoose.Types.ObjectId(cExcId)};
+				var replace = {$set: {categoria: mongo.mongoose.Types.ObjectId(cSub._id)}};
+
+				var result = await mongo.models.Produto.updateMany(query, replace);
+				if (result.nModified > 0) resultMsg.push('Produtos alterados: ' + result.nModified);
+				
+				result = await mongo.models.Servico.updateMany(query, replace);
+				if (result.nModified > 0) resultMsg.push('Serviços alterados: ' + result.nModified);
+
+			} catch (error) {
+				next(error);
+				return;
+			}
+		}
+
+		basicCrudQuery
+		.excluir(cExcId, mongo.models.Categoria,
+			(error, data) => {
+				if (error != null) {
 					next(error);
+				} else {
+					resultMsg.push('Categoria excluída');
+					res.json({resultado: resultMsg});
 				}
 			}
-
-			basicCrudQuery
-			.excluir(cExcId, mongo.models.Categoria,
-				(error, data) => {
-					if (error != null) {
-						next(error);
-					} else {
-						res.json({resultado: [200, 202, 204]});
-					}
-				}
-			);
+		);
     }
   };
 

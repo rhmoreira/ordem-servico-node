@@ -10,7 +10,11 @@ module.exports = (mongo) => {
 			if (!idCategoriaSubstituta) {
 				validarCategoriaParaExclusao(idCategoria, next);
 			} else {
-				next();
+				if (idCategoria === idCategoriaSubstituta) {
+					next(new Error('Selecione uma categoria substituta diferente da atual'));
+				} else {
+					next();
+				}
 			}
 		}
 	};

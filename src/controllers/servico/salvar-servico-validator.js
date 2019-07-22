@@ -3,11 +3,11 @@ var validarServico = (req, res, next) => {
 	var mensagens = [];
 	
 	if (!servico.descricao) {
-		mensagens.push("Descrição do serviço é obrigatória");
+		mensagens.push(" Descrição do serviço é obrigatória");
 	}
 
   if (!servico.categoria) {
-    mensagens.push("Categoria do servico é obrigatória");
+    mensagens.push(" Categoria do servico é obrigatória");
   }
 
   if (mensagens.length > 0) {

@@ -4,18 +4,16 @@ module.exports = (mongo, express, app) => {
 
   var ServicoController = {
     /* Listar */
-    listar: (req, res) => {	
-			var descricao = req.query.descricao;
-			var idCategoria = req.query.idCategoria;
-			var query = {};
-
-			if (descricao) {
-				var descRegex = new RegExp('.*' + descricao + '.*');
-				query.descricao = {$regex: descRegex, $options: 'i'}
-			}
-			idCategoria ? query.categoria = idCategoria : null;
-			
-      mongo.models.Servico.find(query).then(servicos => res.json(servicos));
+    listar: async (req, res, next) => {
+      try {
+        var descricao = req.query.descricao;
+        var idCategoria = req.query.idCategoria;
+      
+        var servicos = await basicCrudQuery.listPorDescricaoECategoria(descricao, idCategoria, mongo.models.Servico);
+        res.json(servicos);
+      }catch (error){
+        next(error);
+      }
     },
 
     /* Listar por categoria */

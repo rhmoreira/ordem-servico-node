@@ -4,8 +4,16 @@ module.exports = (mongo, express, app) => {
 
   var ProdutoController = {
     /* Listar */
-    listar: (req, res) => {
-      mongo.models.Produto.find().then(produtos => res.json(produtos));
+    listar: async (req, res, next) => {
+      try {
+        var descricao = req.query.descricao;
+        var idCategoria = req.query.idCategoria;
+      
+        var produtos = await basicCrudQuery.listPorDescricaoECategoria(descricao, idCategoria, mongo.models.Produto);
+        res.json(produtos);
+      }catch (error){
+        next(error);
+      }
     },
 
     /* Listar por Categoria*/
@@ -15,19 +23,12 @@ module.exports = (mongo, express, app) => {
         .then(produtos => res.json(produtos));
     },
 
-    /* Listar por Categoria e Tipo*/
-    listarPorCategoriaETipo: (req, res) => {
-      produtosQuery
-        .listarPorCategoriaETipo(req.params.idCategoria, req.params.idTipo)
-        .then(produtos => res.json(produtos));
-    },
-
     /* Salvar/Atualizar */
     salvar: (req, res, next) => {
 			var produto = req.body;
 			
 			basicCrudQuery
-				.salvar(req.body, mongo.models.Produto)
+				.salvar(produto, mongo.models.Produto)
 				.then(prod => res.json({_id: prod._id, __v: prod.__v}))
 				.catch(err => next(err));
     }
@@ -39,7 +40,6 @@ module.exports = (mongo, express, app) => {
 
   router.get("/", ProdutoController.listar);
   router.get("/Categoria/:idCategoria", ProdutoController.listarPorCategoria);
-  router.get("/Categoria/:idCategoria/Tipo/:idTipo", ProdutoController.listarPorCategoriaETipo);
 	router.post("/", validadorProduto, ProdutoController.salvar);
 	router.put("/", validadorProduto, ProdutoController.salvar);
 
