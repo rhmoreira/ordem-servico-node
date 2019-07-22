@@ -9,7 +9,9 @@ module.exports = (mongoose) => {
       comprimento: Number,
       altura: Number
     }
-  });
+  },{
+    versionKey: false
+	});
   var Produto = mongoose.model("Produto", ProdutoSchema);
 
   return module = Produto;

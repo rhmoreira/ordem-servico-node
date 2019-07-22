@@ -27,11 +27,11 @@ module.exports = (mongo) => {
 			await servico.countDocuments({categoria: idCategoria}, (e, count) => {
 				if (e) erro = e;
 				
-				validoParaExclusao = count === 0;
+				validoParaExclusao = validoParaExclusao && count === 0;
 			});
 			await produto.countDocuments({categoria: idCategoria}, (e, count) => {
 				if (e) erro = e;
-				validoParaExclusao = count === 0;
+				validoParaExclusao =  validoParaExclusao && count === 0;
 			});
 			
 			if (erro) {

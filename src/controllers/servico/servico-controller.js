@@ -4,8 +4,18 @@ module.exports = (mongo, express, app) => {
 
   var ServicoController = {
     /* Listar */
-    listar: (req, res) => {
-      mongo.models.Servico.find().then(servicos => res.json(servicos));
+    listar: (req, res) => {	
+			var descricao = req.query.descricao;
+			var idCategoria = req.query.idCategoria;
+			var query = {};
+
+			if (descricao) {
+				var descRegex = new RegExp('.*' + descricao + '.*');
+				query.descricao = {$regex: descRegex, $options: 'i'}
+			}
+			idCategoria ? query.categoria = idCategoria : null;
+			
+      mongo.models.Servico.find(query).then(servicos => res.json(servicos));
     },
 
     /* Listar por categoria */

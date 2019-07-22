@@ -10,7 +10,9 @@ module.exports = (mongoose) => {
         produto: { type: mongoose.Schema.Types.ObjectId, ref: "Produto" }
       }
     ]
-  });
+  },{
+    versionKey: false
+	});
 	var TabelaPreco = mongoose.model("TabelaPreco", TabelaPrecoSchema);
 
   return module = TabelaPreco;
