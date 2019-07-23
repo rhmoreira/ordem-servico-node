@@ -15,7 +15,7 @@ var serverPort = 8080;
 
 app.use(express.json());
 
-app.listen(serverPort, function () {
+app.listen(serverPort, '0.0.0.0', function () {
   console.log('Example app listening on port ' + serverPort + '!');
 });
 
@@ -29,13 +29,5 @@ app.use('/OS', osApp);
 /* Error Handler */
 app.use((err, req, res, next) => {
   if (!err.statusCode) { err.statusCode = 500 };
-  var errorName = err.name;
-	switch (errorName) {
-		case 'VersionError':
-			next(new Error('Registro desatualizado. Por favor, pesquise novamente.'));
-			break;
-		default:
-			res.status(err.statusCode).json({erro: err.message});
-			break;
-	}
+	res.status(err.statusCode).json({erro: err.message});
 })
