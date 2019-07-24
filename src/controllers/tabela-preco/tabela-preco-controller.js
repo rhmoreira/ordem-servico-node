@@ -25,7 +25,7 @@ module.exports = function(mongo, express, app) {
     salvar: (req, res, next) => {
       basicCrudQuery
         .salvar(req.body, mongo.models.TabelaPreco)
-        .then(tb => res.json({ _id: tb._id, __v: tb.__v }))
+        .then(tb => res.json({ _id: tb._id}))
 				.catch(err => next(err));
     }
   };

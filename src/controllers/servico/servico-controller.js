@@ -36,7 +36,7 @@ module.exports = (mongo, express, app) => {
     salvar: (req, res, next) => {
       basicCrudQuery
         .salvar(req.body, mongo.models.Servico)
-        .then(ser => res.json({ _id: ser._id, __v: ser.__v }))
+        .then(ser => res.json({ _id: ser._id}))
         .catch(err => next(err));
     }
   };

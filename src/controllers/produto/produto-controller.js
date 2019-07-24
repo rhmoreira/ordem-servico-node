@@ -29,7 +29,7 @@ module.exports = (mongo, express, app) => {
 			
 			basicCrudQuery
 				.salvar(produto, mongo.models.Produto)
-				.then(prod => res.json({_id: prod._id, __v: prod.__v}))
+				.then(prod => res.json({_id: prod._id}))
 				.catch(err => next(err));
     }
   };
