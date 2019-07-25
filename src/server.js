@@ -28,6 +28,21 @@ app.use('/OS', osApp);
 
 /* Error Handler */
 app.use((err, req, res, next) => {
-  if (!err.statusCode) { err.statusCode = 500 };
-	res.status(err.statusCode).json({erro: err.message});
+	if (!err.statusCode) { err.statusCode = 500 };
+	switch (err.name) {
+		case 'ValidationError':
+			var messages = [];
+			for (field in err.errors) {
+				messages.push(err.errors[field].message);
+			}
+			err.message = messages;
+			break;
+	
+		default:
+			if (err.messages) {
+				err.message = err.messages;
+			}
+			break;
+	}
+	res.status(err.statusCode).json({cause: err.message});
 })

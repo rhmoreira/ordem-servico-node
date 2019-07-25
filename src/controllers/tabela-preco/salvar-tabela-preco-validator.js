@@ -6,19 +6,7 @@ var validarTabelaPreco = (req, res, next) => {
     mensagens.push('Tabela de preço inválida');
 	}
 
-	if (!tabelaPreco.nome || tabelaPreco.nome.trim() == '') {
-    mensagens.push('Nome da Tabela de preço é obrigatório');
-	}
-
-  if (!tabelaPreco.servico) {
-    mensagens.push('Serviço da Tabela de Preço é obrigatório');
-	}
-
-	if (!tabelaPreco.servico) {
-    mensagens.push('Serviço da Tabela de Preço é obrigatório');
-	}
-	
-	if (!tabelaPreco.itens || tabelaPreco.length == 0) {
+	if (!tabelaPreco.itens || tabelaPreco.itens.length === 0) {
     mensagens.push('Produtos da Tabela de Preço são obrigatórios');
   } else {
 		tabelaPreco.itens.forEach( (item, index) => {
@@ -33,7 +21,7 @@ var validarTabelaPreco = (req, res, next) => {
 	}
 
   if (mensagens.length > 0) {
-    throw new Error(mensagens);
+    throw {messages: mensagens};
   } else {
     next();
   }

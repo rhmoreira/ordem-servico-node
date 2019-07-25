@@ -11,7 +11,7 @@ var validarServico = (req, res, next) => {
   }
 
   if (mensagens.length > 0) {
-    throw new Error(mensagens);
+    throw {messages: mensagens};
   } else {
     next();
   }
