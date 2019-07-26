@@ -5,11 +5,15 @@ module.exports = function(mongo, express, app) {
   var TabelaPrecoController = {
     /* Listar */
     listar: (req, res, next) => {
-			var ativo = req.query.ativo;
-			var query = {}; 
-			if (ativo != null) {query = {ativo: ativo}};
-
-      mongo.models.TabelaPreco.find(query).then(tabelas => res.json(tabelas));
+			tabelaPrecoQuery
+				.listar(req.query.nome,
+								req.query.idCategoria,
+								req.query.idServico,
+								req.query.idProduto,
+								req.query.ativo
+				).then( 
+					tabelas => res.json(tabelas)
+				).catch(next);
     },
 
     /* Listar Servico & Produto*/
