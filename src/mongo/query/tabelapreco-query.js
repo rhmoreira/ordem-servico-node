@@ -12,13 +12,13 @@ module.exports = (mongo) => {
 					var matchCriteria = []; 
 					if (nome) {
 						var nomeRegex = new RegExp('.*' + nome + '.*');
-						matchCriteria = matchCriteria.push({nome: nomeRegex})
+						matchCriteria.push({nome: nomeRegex})
 					}
 
 					if (idCategoria) {matchCriteria.push({"servicos.categoria": mongo.mongoose.Types.ObjectId(idCategoria)})};
 					if (idServico) {matchCriteria.push({servico: mongo.mongoose.Types.ObjectId(idServico)})};
 					if (idProduto) {matchCriteria.push({"itens.produto": mongo.mongoose.Types.ObjectId(idProduto)})};
-					if (ativo && (ativo === "true" || ativo === "false")) {matchCriteria.push({ativo: new Boolean(ativo)})};
+					if (ativo) {matchCriteria.push({ativo: ativo === "true"})};
 
 					
 					var aggregate = [
