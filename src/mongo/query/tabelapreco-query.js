@@ -42,7 +42,7 @@ module.exports = (mongo) => {
 
 					return mongo.models.TabelaPreco
 						.aggregate(aggregate).then(tabelas => {
-							return mongo.models.TabelaPreco.populate(tabelas, [{path: "servico"}, {path: "itens.produto"}]);
+							return mongo.models.TabelaPreco.populate(tabelas, [{path: "servico", populate: {path: "categoria"}}, {path: "itens.produto"}]);
 					});
 										
 				}
